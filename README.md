@@ -30,10 +30,113 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
+```
+math.html
+<html>
+<head>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<title>Area of squareprism</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<style type="text/css">
+body 
+{
+background-color:rgb(189, 112, 195);
+}
+.edge {
+width: 1440px;
+margin-left: auto;
+margin-right: auto;
+padding-top: 250px;
+padding-left: 300px;
+}
+.box {
+display:block;
+border: Thick dashed lime;
+width: 500px;
+min-height: 300px;
+font-size: 20px;
+background-color:rgb(101, 138, 219);
+}
+.formelt{
+color:rgba(23, 18, 8, 0.012);
+text-align: center;
+margin-top: 7px;
+margin-bottom: 6px;
+}
+h1
+{
+color:rgb(204, 151, 146);
+text-align: center;
+padding-top: 20px;
+}
+</style>
+</head>
+<h2><center>Nandhana.R (212223040124)</center></h2>
+<body>
+<div class="edge">
+<div class="box">
+<h1>Surface Area of Right Cylinder</h1>
+<form method="POST">
+{% csrf_token %}
+<div class="formelt">
+Radius : <input type="text" name="radius" value="{{r}}"></input>(in m)<br/>
+</div>
+<div class="formelt">
+Height : <input type="text" name="height" value="{{h}}"></input>(in m)<br/>
+</div>
+<div class="formelt">
+<input type="submit" value="Calculate"></input><br/>
+</div>
+<div class="formelt">
+Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br/>
+</div>
+</form>
+</div>
+</div>
+</body>
+</html>
+
+urls.py
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('surfacearea',views.surfacearea,name="surfacearea"),
+    path('',views.surfacearea,name="surfacearearoot")
+]
+
+views.py
+from django.shortcuts import render
+def surfacearea(request):
+    context = {}
+    context['area'] = "0"
+    context['r'] = "0"
+    context['h'] = "0"
+    
+    if request.method == 'POST':
+        print("POST method is used")
+        
+        print('request.POST:', request.POST)
+        
+        r = request.POST.get('radius', '0') 
+        h = request.POST.get('height', '0') 
+        print('radius =', r)
+        print('height =', h)
+        
+        area = 2 * 3.14 * int(r) * int(h) + 2*3.14*int(r)*int(r)
+        context['area'] = area
+        context['r'] = r
+        context['h'] = h
+        print('Area =', area)
+    
+    return render(request, 'mathapp/math.html',context)
+
 
 
 ## SERVER SIDE PROCESSING:
-
+Screenshot 2024-04-26 232102.png
 
 ## HOMEPAGE:
 
